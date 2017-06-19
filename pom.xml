@@ -25,6 +25,7 @@
 		<postgresql.version>9.4-1201-jdbc4</postgresql.version>
 		<swagger.version>2.6.1</swagger.version>
 		<mybatisStart.version>1.1.1</mybatisStart.version>
+		<mybatisMapper.version>1.1.1</mybatisMapper.version>
 	</properties>
 
 	<dependencies>
@@ -56,6 +57,11 @@
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>${mybatisStart.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper-spring-boot-starter</artifactId>
+			<version>${mybatisMapper.version}</version>
 		</dependency>
 
 		<!--devTools   热加载-->
