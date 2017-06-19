@@ -20,7 +20,8 @@ public class SwaggerConfig {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())// 创建Api的基本信息
                 .select()//返回一个 ApiSelectorBuilder 实例用来控制哪些接口暴露给Swagger来展现
-                .apis(RequestHandlerSelectors.basePackage("com.celnet.dc.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.chervon.iot.ablecloud.controller"))
+                .apis(RequestHandlerSelectors.basePackage("com.chervon.iot.mobile.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }
@@ -33,7 +34,6 @@ public class SwaggerConfig {
                 .termsOfServiceUrl("http://blog.didispace.com/")
                 .contact("雨花石云计算")
                 .version("1.0")
-                .termsOfServiceUrl("/service")
                 .build();
     }
 }
