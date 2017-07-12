@@ -24,6 +24,7 @@
 		<java.version>1.8</java.version>
 		<postgresql.version>9.4-1201-jdbc4</postgresql.version>
 		<swagger.version>2.6.1</swagger.version>
+		<httpclient.version>4.3.5</httpclient.version>
 		<mybatisStart.version>1.1.1</mybatisStart.version>
 		<mybatisMapper.version>1.1.1</mybatisMapper.version>
 	</properties>
@@ -52,6 +53,12 @@
 			<artifactId>spring-boot-starter-jdbc</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-redis</artifactId>
+			<version>1.4.1.RELEASE</version>
+		</dependency>
+
 		<!--Mybatis-->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
@@ -66,13 +73,24 @@
 			<optional>true</optional>
 		</dependency>
 
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt</artifactId>
+			<version>0.6.0</version>
+		</dependency>
+
 		<!-- postgresql 连接驱动依赖 -->
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
 			<version>${postgresql.version}</version>
 		</dependency>
-
+		<!--httpClient-->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>${httpclient.version}</version>
+		</dependency>
 		<!--swagger-->
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -84,7 +102,17 @@
 			<artifactId>springfox-swagger-ui</artifactId>
 			<version>${swagger.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mobile</artifactId>
+			<version>1.4.0.RELEASE</version>
+		</dependency>
+		<!--Entiy-->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.3.1</version>
+		</dependency>
 
 	</dependencies>
 

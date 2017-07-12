@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+        <!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+                "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <!-- 驱动包路径！,得自己下载一个 -->
+    <classPathEntry location="E:\PostgreSQL1\postgresql-42.1.1.jre6.jar"/>
+    <context id="postgresqlTables" targetRuntime="MyBatis3">
+        <commentGenerator>
+            <property name="suppressDate" value="true"/>
+            <property name="suppressAllComments" value="false" />
+        </commentGenerator>
+        <!-- jdbc url地址 ！ -->
+        <jdbcConnection driverClass="org.postgresql.Driver" connectionURL="jdbc:postgresql://ec2-107-22-162-158.compute-1.amazonaws.com/dcjcaktnhjsvhc?ssl=true&amp;sslfactory=org.postgresql.ssl.NonValidatingFactory"
+ userId="fbcsnlxuzqyaxt" password="8236e63f7126abad4e414e6943e0a6b5f8d0f7f100cfe4314bf293672da2825c">
+        </jdbcConnection>
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+        <!-- targetPackage 生成后的路径 ，targetProject 绝对路径  该配置生成java代码  -->
+        <javaModelGenerator targetPackage="com.chervon.iot.mobile.model" targetProject="C:\Users\喷水君\Documents\WeChat Files\hqssgsd\Files\egochervoniot\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+            <property name="trimStrings" value="true"/>
+        </javaModelGenerator>
+        <!-- 该配置生成 mybatis 映射文件   -->
+        <sqlMapGenerator targetPackage="mybatisMapper" targetProject="C:\Users\喷水君\Documents\WeChat Files\hqssgsd\Files\egochervoniot\src\main\resources">
+            <property name="enableSubPackages" value="true"/>
+        </sqlMapGenerator>
+        <!-- 生成 java 接口代码  -->
+        <javaClientGenerator type="XMLMAPPER" targetPackage="com.chervon.iot.mobile.mapper" targetProject="C:\Users\喷水君\Documents\WeChat Files\hqssgsd\Files\egochervoniot\src\main\java">
+            <property name="enableSubPackages" value="true"/>
+        </javaClientGenerator>
+        <!--  表配置    tableName 表名      domainObjectName java类名，首字母必须大写，否则报字符串越界错误 -->
+        <table tableName="mobile_user" domainObjectName="Mobile_User"
+               enableCountByExample="false" enableUpdateByExample="false"
+               enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false">
+        </table>
+
+    </context>
+
+
+</generatorConfiguration>
