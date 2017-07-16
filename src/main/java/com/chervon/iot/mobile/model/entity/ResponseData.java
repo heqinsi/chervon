@@ -13,13 +13,13 @@ public class ResponseData {
     private String type;
     private String id;
     private Map<String,String> attributes;
-    private Relationship relationships;
+    private Map<String,Relationship> relationships;
     private Map<String,String> links;
 
     public  ResponseData(){
 
     }
-    public ResponseData(String type, String id, Map<String, String> attributes, Relationship relationships, Map<String, String> links) {
+    public ResponseData(String type, String id, Map<String, String> attributes, Map<String,Relationship> relationships, Map<String, String> links) {
         this.type = type;
         this.id = id;
         this.attributes = attributes;
@@ -51,11 +51,11 @@ public class ResponseData {
         this.attributes = attributes;
     }
 
-    public Relationship getRelationships() {
+    public Map<String,Relationship> getRelationships() {
         return relationships;
     }
 
-    public void setRelationships(Relationship relationships) {
+    public void setRelationships(Map<String,Relationship> relationships) {
         this.relationships = relationships;
     }
 

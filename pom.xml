@@ -46,7 +46,12 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
+		<!--email-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+			<version>1.2.6.RELEASE</version>
+		</dependency>
 		<!--Spring boot JDBC-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,14 +63,22 @@
 			<artifactId>spring-boot-starter-redis</artifactId>
 			<version>1.4.1.RELEASE</version>
 		</dependency>
-
+		<!--AOP-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-aop</artifactId>
+		</dependency>
 		<!--Mybatis-->
 		<dependency>
 			<groupId>org.mybatis.spring.boot</groupId>
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>${mybatisStart.version}</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>fastjson</artifactId>
+			<version>1.2.4</version>
+		</dependency>
 		<!--devTools   热加载-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -107,11 +120,12 @@
 			<artifactId>spring-boot-starter-mobile</artifactId>
 			<version>1.4.0.RELEASE</version>
 		</dependency>
+
 		<!--Entiy-->
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpmime</artifactId>
-			<version>4.3.1</version>
+			<version>4.5.3</version>
 		</dependency>
 
 	</dependencies>

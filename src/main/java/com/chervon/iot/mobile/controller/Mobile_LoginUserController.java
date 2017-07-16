@@ -20,10 +20,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mobile.device.Device;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.bind.annotation.ResponseBody;
 
+
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * Created by Boy on 2017/6/26.
@@ -44,19 +47,19 @@ public class Mobile_LoginUserController {
     private Mobile_UserLoginService mobile_userLoginService;
     @Autowired
     private com.chervon.iot.mobile.model.entity.ResponseBody responseBody;
+    private  static AtomicInteger count= new AtomicInteger(0);
     @RequestMapping(value = "sessions",method= RequestMethod.POST)
     public ResponseEntity<?> login(@RequestHeader String Authorization,Device device)throws Exception{
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type","application/vnd.api+json");
         ResultStatusCode resultStatusCode = basicTokenUtil.checkAuthorizeToken(Authorization);
-
         if(resultStatusCode==ResultStatusCode.SC_OK){
             mobile_user=basicTokenUtil.getUser();
             responseBody= mobile_userLoginService.loginReturn(mobile_user);
             final String token = jwtTokenUtil.generateToken(mobile_user, device);
             logger.info("checking authentication for ExpirationDateFromToken= " + jwtTokenUtil.getExpirationDateFromToken(token));
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.add("Content-Type","application/vnd.api+json");
             headers.add("Authorization","Bearer "+token);
+           System.out.println("count"+count.incrementAndGet());
             return new ResponseEntity(responseBody,headers, HttpStatus.OK);
         }
         else{
@@ -67,24 +70,31 @@ public class Mobile_LoginUserController {
             System.out.println("mike============"+resultMsg.getErrors());
             HttpStatus.valueOf(resultStatusCode.getErrcode());
             System.out.println(HttpStatus.valueOf(resultStatusCode.getErrcode()));
-            return new ResponseEntity(resultMsg, HttpStatus.valueOf(resultStatusCode.getErrcode()));
+            return new ResponseEntity(resultMsg, headers,HttpStatus.valueOf(resultStatusCode.getErrcode()));
         }
     }
 
+    //读取个人信息
     @RequestMapping(value = "sessions", method = RequestMethod.GET)
-    public  ResponseEntity<?> read(@RequestHeader String Authorization){
-    mobile_user =  HTTPBearerAuthorizeAttribute.getMobile_User();
-        responseBody= mobile_userLoginService.loginReturn(mobile_user);
+    public  ResponseEntity<?> read(@RequestHeader String Authorization)throws SQLException,Exception{
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type","application/vnd.api+json");
+        String email = jwtTokenUtil.getEmailFromToken(Authorization.substring(7));
+        mobile_user = mobile_userLoginService.getUserByEmail(email);
+        responseBody= mobile_userLoginService.loginReturn(mobile_user);
         headers.add("Authorization",Authorization);
         return new ResponseEntity(responseBody,headers, HttpStatus.OK);
     }
-
+    //退出
     @RequestMapping(value = "sessions", method = RequestMethod.DELETE)
-    public  ResponseEntity<?> delete(){
+    public  ResponseEntity<?> delete(@RequestBody String Authorization)throws SQLException,Exception{
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Type","application/vnd.api+json");
+        String email = jwtTokenUtil.getEmailFromToken(Authorization.substring(7));
+        mobile_user = mobile_userLoginService.getUserByEmail(email);
+        Date date = new Date();
+        mobile_user.setLastpasswordresetdate(date);
+        mobile_userLoginService.modifyTime(mobile_user);
         return new ResponseEntity(headers, HttpStatus.NO_CONTENT);
-    }
+        }
 }

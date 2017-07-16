@@ -34,14 +34,12 @@ public class HTTPBearerAuthorizeAttribute implements Filter {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private  static Mobile_User mobile_user;
+    private  Mobile_User mobile_user;
 
     @Autowired
     private Mobile_UserLoginService mobile_userLoginService;
 
-    public static Mobile_User getMobile_User(){
-        return mobile_user;
-    }
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
         // TODO Auto-generated method stub
@@ -57,11 +55,10 @@ public class HTTPBearerAuthorizeAttribute implements Filter {
 
         HttpServletRequest httpServletRequest =(HttpServletRequest)request;
         //用户注册，登陆请求不做过滤
-        if(httpServletRequest.getMethod().equals("POST")  && httpServletRequest.getServletPath().equals("/api/v1/sessions") ){
+        if(httpServletRequest.getMethod().equals("POST")  && (httpServletRequest.getServletPath().equals("/api/v1/sessions")||httpServletRequest.getServletPath().equals("/api/v1/resets")||httpServletRequest.getServletPath().equals("/api/v1/users"))){
             System.out.println(true);
             System.out.println();
             chain.doFilter(request, response);
-
             return;
         }
         String headerAuthToken = httpServletRequest.getHeader("Authorization");

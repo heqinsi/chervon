@@ -64,7 +64,25 @@ public class BasicAuthorizeTokenUtil {
 
     }
 
-    private String getFromBASE64(String s) {
+    public static String[] parseBasicAuthorize(String token){
+        String[] UserArray = new String[2];
+        if ((token != null) && (token.length() > 6))
+        {
+            String HeadStr = token.substring(0, 5).toLowerCase();
+            if (HeadStr.compareTo("basic") == 0)
+            {
+                token = token.substring(6, token.length());
+                String decodedAuth = getFromBASE64(token);
+                System.out.println("decodedAuth === "+decodedAuth);
+                if (decodedAuth != null)
+                {
+                    UserArray = decodedAuth.split(":");
+                }
+            }
+        }
+        return UserArray;
+    }
+    private static String getFromBASE64(String s) {
         if (s == null)
             return null;
         BASE64Decoder decoder = new BASE64Decoder();

@@ -11,7 +11,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.SQLException;
 import java.util.*;
 
 /**
@@ -36,38 +38,9 @@ public class Mobile_UserLoginServiceImp implements Mobile_UserLoginService {
     @Autowired
     private ResponseBody responseBody;
 
-    private  Relationship.Creator creator;
-    @Override
-    public ResponseEntity<?> userLogin(String email, String password) throws Exception{
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        // Mobile_JWT mobileJwt= (Mobile_JWT) operations.get("Authorization"+Authorization);
-        Mobile_User mobileUser= (Mobile_User) operations.get("userEmail"+email);//Redis中拿取数据
-        return null;
-    }
-    @Override
-    public ResponseEntity<?> getCurrentUser(String Authorization) throws Exception {
-        System.out.println("++Authorization");
-        ValueOperations<String, Object> operations = redisTemplate.opsForValue();
-        return null;
-    }
-    @Override
-    public void userLoginOut(String Authorization) throws Exception {
-        //return 0;
-
-        }
 
     @Override
-    public Mobile_User loadUserByUsername(String email)throws Exception {
-        return null;
-    }
-
-    @Override
-    public Mobile_User loadUserByEmailAndPassword(String email,String password) throws Exception {
-        return null;
-    }
-
-    @Override
-    public Mobile_User getUserByEmail(String email) throws Exception {
+    public Mobile_User getUserByEmail(String email) throws SQLException {
 
         mobileUser = mobile_userMapper.getUserByEmail(email);
         System.out.println(mobileUser + "mobile");
@@ -88,9 +61,11 @@ public class Mobile_UserLoginServiceImp implements Mobile_UserLoginService {
         links.put("related","https://private-c0530-iyo.apiary-mock.");
         data.put("type","users");
         data.put("id",mobile_user.getSfdcId());
-        creator =relationship.new Creator(links,data);
-        relationship.setCreator(creator);
-        responseData.setRelationships(relationship);
+        relationship.setLinks(links);
+        relationship.setData(data);
+        Map<String,Relationship> creator = new HashMap<String, Relationship>();
+        creator.put("creator",relationship);
+        responseData.setRelationships(creator);
         Map<String,String> linkMap = new HashMap<String,String>();
         linkMap.put("self","https://private-c0530-iyo.apiary-mock.com/api");
         responseData.setLinks(linkMap);
@@ -107,11 +82,16 @@ public class Mobile_UserLoginServiceImp implements Mobile_UserLoginService {
         included.setLinks(includeLink);
         List<Included> includedList = new ArrayList<Included>();
         includedList.add(included);
-
         responseBody.setData(responseData);
         responseBody.setIncluded(includedList);
         Map<String,String> metaMap = new HashMap<String,String>();
         responseBody.setMeta(metaMap);
         return responseBody;
+    }
+
+    @Override
+    @Transactional
+    public void modifyTime(Mobile_User mobile_user)throws SQLException {
+      mobile_userMapper.updateModifyTime(mobile_user);
     }
 }

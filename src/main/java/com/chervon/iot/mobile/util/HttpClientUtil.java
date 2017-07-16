@@ -145,41 +145,24 @@ public class HttpClientUtil {
 		return doPost(url, null);
 	}
 
-	public static String doPostJson(String url, File file) {
+	public static String doPostJson(String url, File file)throws IOException, Exception {
 		// 创建Httpclient对象
 		CloseableHttpClient httpClient = HttpClientUtil.createSSLClientDefault();
 		CloseableHttpResponse response = null;
 		String resultString = "";
-		try {
-			HttpPost httpPost = new HttpPost(url);
-
-			//httpPost.setHeader("content-type","image/jpg");
-			httpPost.setHeader("secret","QItvWW2yzjr78GI3RKeyyu");
-			httpPost.setHeader("accept","application/json");
-
-
-			MultipartEntity mutiEntity = new MultipartEntity();
-
-			mutiEntity.addPart("file", new FileBody(file));
-
-			httpPost.setEntity(mutiEntity);
-
-			response = httpClient.execute(httpPost);
-			response.setHeader("content-type","application/json");
-			resultString = EntityUtils.toString(response.getEntity(), "utf-8").replace("\\","");
-			System.out.println(response.getEntity()+"response"+response.getAllHeaders());
-			System.out.println(resultString+"resultString");
-		} catch (Exception e) {
-			System.out.println(11);
-			e.printStackTrace();
-		} finally {
-			try {
-				response.close();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
+		HttpPost httpPost = new HttpPost(url);
+		httpPost.setHeader("secret","QItvWW2yzjr78GI3RKeyyu");
+		httpPost.setHeader("accept","application/json");
+		MultipartEntity mutiEntity = new MultipartEntity();
+		mutiEntity.addPart("file", new FileBody(file));
+		httpPost.setEntity(mutiEntity);
+		response = httpClient.execute(httpPost);
+		response.setHeader("content-type","application/json");
+		resultString = EntityUtils.toString(response.getEntity(), "utf-8").replace("\\","");
+		System.out.println(response.getEntity()+"response"+response.getAllHeaders());
+		System.out.println(resultString+"resultString");
+		httpClient.close();
+		response.close();
 		return resultString;
 	}
 

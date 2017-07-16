@@ -30,24 +30,27 @@ public class OcrFileController {
     private  String baseUrl;
     @RequestMapping(value="/ocr")
     @ResponseBody
-    public ResponseEntity<?> ocrLoad(@RequestParam("file") MultipartFile files)throws IOException{
-        System.out.println(files.getClass());
-        System.out.println(files.getOriginalFilename());
+    public ResponseEntity<?> ocrLoad(@RequestParam("file") MultipartFile files)throws IOException,Exception{
+
         byte[] buffer = files.getBytes();
-        File file = new File(files.getOriginalFilename());
+        File file = new File("./pictures/"+files.getOriginalFilename());
         OutputStream output = new FileOutputStream(file);
         BufferedOutputStream bufferedOutput = new BufferedOutputStream(output);
         bufferedOutput.write(buffer);
         System.out.println(file);
+        bufferedOutput.close();
+        output.close();
         String string=  HttpClientUtil.doPostJson(baseUrl,file);
         System.out.println("doPost"+string);
         JsonNode jsonNode = mapper.readTree(string);
         String handle=jsonNode.get("handle").asText();
-        String baseUrls =baseUrl+"/"+handle+"/sss12345";
+        System.out.println(handle+"handle");
+        String baseUrls =baseUrl+handle+"/sss12345";
         String ocrData = HttpClientUtil.doGet(baseUrls);
         System.out.println("ocrData+++++++++++++"+ocrData);
         HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-        return new ResponseEntity<Object>(ocrData,headers, HttpStatus.MULTI_STATUS);
+        headers.add("Content-Type","application/vnd.api+json");
+        file.delete();
+        return new ResponseEntity<Object>(ocrData,headers, HttpStatus.OK);
     }
 }
