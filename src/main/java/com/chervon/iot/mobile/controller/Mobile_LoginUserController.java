@@ -67,7 +67,7 @@ public class Mobile_LoginUserController {
             ResultMsg.Error error = new ResultMsg.Error(resultStatusCode.getErrcode(),resultStatusCode.getTitle(),null);
             errors.add(error);
             ResultMsg resultMsg = new ResultMsg(errors);
-            System.out.println("mike============"+resultMsg.getErrors());
+           System.out.println(11);
             HttpStatus.valueOf(resultStatusCode.getErrcode());
             System.out.println(HttpStatus.valueOf(resultStatusCode.getErrcode()));
             return new ResponseEntity(resultMsg, headers,HttpStatus.valueOf(resultStatusCode.getErrcode()));
